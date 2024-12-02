@@ -1,0 +1,40 @@
+#p5-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+}
+
+
+form label + label {
+  margin-left: 20px; /* 各入力間の余白 */
+}
+
+form div {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+form button {
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+form button:hover {
+  background-color: #0056b3;
+}
+
+
+  
+  
