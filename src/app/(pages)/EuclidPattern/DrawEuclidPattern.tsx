@@ -15,7 +15,7 @@ const EuclidPattern = () => {
       p.setup = () => setup(p);
       p.draw = () => draw(p);
     };
-     p5Instance = new p5(
+    p5Instance = new p5(
       sketch,
       document.getElementById('p5-container')!
     );

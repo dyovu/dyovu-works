@@ -8,12 +8,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang='en'>
-      <head>{/* 必要に応じてメタタグやタイトルをここに追加 */}</head>
+      <head>
+      </head>
+
       <body>
-        <nav>
-          <Link href={'/'}>ホーム</Link>
-          <Link href={'/EuclidPattern'}>ユークリッド</Link>
-        </nav>
+        <header>
+          <nav>
+            <Link href={'/'}>ホーム</Link>
+            <Link href={'/EuclidPattern'}>ユークリッド</Link>
+          </nav>
+        </header>
         {children}
       </body>
     </html>
