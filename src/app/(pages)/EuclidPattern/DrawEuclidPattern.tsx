@@ -1,60 +1,95 @@
 'use client';
 
-import React, { useEffect } from 'react';
 import p5 from 'p5';
+import React, { useEffect, useRef, useState } from 'react';
 
 import '@/styles/EuclidPattern.css';
 import setup from './Setup';
 import draw from './Draw';
+import CustomSlider from './CustomSlider';
 
 const EuclidPattern = () => {
-  let p5Instance: p5;
+  const p5InstanceRef = useRef(null);
+
+  const [vertical, setVertical] = useState(1);
+  const [horizontal, setHorizontal] = useState(2);
+  const [threshold, setThreshold] = useState(50);
+
+  // let p5Instance: p5;
 
   useEffect(() => {
     const sketch = (p: p5) => {
-      p.setup = () => setup(p);
+      p.setup = () => setup(p, vertical, horizontal, threshold);
       p.draw = () => draw(p);
+
+      p.resetSketch = (v, h, t) => {
+        setup(p, v, h, t);
+      };
     };
-    p5Instance = new p5(
-      sketch,
-      document.getElementById('p5-container')!
-    );
+
+    let newInstance = new p5(sketch, document.getElementById('p5-container')!);
+    p5InstanceRef.current = newInstance;
 
     return () => {
-      p5Instance.remove();
+      if (p5InstanceRef.current) {
+        p5InstanceRef.current.remove();
+      }
     };
   }, []);
 
-  
-  const rerender = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    p5Instance?.remove();
-    const container = document.getElementById('p5-container');
-    const vertical = Number((e.currentTarget[0] as HTMLInputElement).value);
-    const horizontal = Number((e.currentTarget[1] as HTMLInputElement).value);
+  // 際描画する際はこっちの関数が呼ばれる
+  useEffect(() => {
+    if (p5InstanceRef.current) {
+      p5InstanceRef.current.resetSketch(vertical, horizontal, threshold);
+    }
+  }, [vertical, horizontal, threshold]);
 
-    const sketch = (p: p5) => {
-      p.setup = () => setup(p, vertical, horizontal);
-      p.draw = () => draw(p);
-    };
-
-    p5Instance = new p5(sketch, container!);
+  // それぞれのスライダーの値が変わったときにuseStateを更新する
+  const handleVerticalChange = (newValue) => {
+    if (horizontal == newValue) {
+      setVertical(newValue + 1);
+    } else {
+      setVertical(newValue);
+    }
   };
 
+  const handleHorizontalChange = (newValue) => {
+    if (horizontal == newValue) {
+      setHorizontal(newValue + 1);
+    } else {
+      setHorizontal(newValue);
+    }
+  };
+
+  const handleThresholdChange = (newValue) => {
+    setThreshold(newValue);
+  };
 
   return (
     <div>
-      <form onSubmit={rerender} >
-        <div>
-          <label>vetical: <input type='number'/> </label>
-          <label>Horizontal: <input /> </label>
-          <label>threshold: <input /> </label>
-        </div>
-        <div>
-          <button type="submit"> render </button>
-        </div>
-      </form>
-      <div id='p5-container'></div>
+      <CustomSlider
+        value={vertical}
+        onChange={handleVerticalChange}
+        label='Vertical'
+        min={1}
+        max={30}
+      />
+      <CustomSlider
+        value={horizontal}
+        onChange={handleHorizontalChange}
+        label='Horizontal'
+        min={1}
+        max={30}
+      />
+      <CustomSlider
+        value={threshold}
+        onChange={handleThresholdChange}
+        label='Threshold'
+        min={30}
+        max={100}
+      />
+
+      <div id='p5-container' className='left-aligned'></div>
     </div>
   );
 };

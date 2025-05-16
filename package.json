@@ -1,26 +1,26 @@
 {
- "scripts": {
-  "dev": "next dev",
-  "build": "next build",
-  "start": "next start",
-  "lint": "next lint --dir src",
-  "lint:fix": "npm run lint -- --fix",
-  "format": "prettier --ignore-path .gitignore 'src/**/*.{tsx,ts,jsx,js,json}'",
-  "format:fix": "npm run format -- --write"
- },
- "dependencies": {
-  "next": "^15.0.3",
-  "p5": "^1.11.1",
-  "react": "^18.3.1",
-  "react-dom": "^18.3.1"
- },
- "devDependencies": {
-  "@types/node": "22.9.2",
-  "@types/react": "18.3.12",
-  "eslint": "9.15.0",
-  "eslint-config-next": "15.0.3",
-  "eslint-config-prettier": "^9.1.0",
-  "prettier": "^3.3.3",
-  "typescript": "5.7.2"
- }
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint --dir src",
+    "lint:fix": "npm run lint -- --fix",
+    "format": "prettier --ignore-path .gitignore 'src/**/*.{tsx,ts,jsx,js,json}'",
+    "format:fix": "npm run format -- --write"
+  },
+  "dependencies": {
+    "next": "^15.0.3",
+    "p5": "^1.11.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.9.2",
+    "@types/react": "18.3.12",
+    "eslint": "9.15.0",
+    "eslint-config-next": "15.0.3",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.3.3",
+    "typescript": "5.7.2"
+  }
 }

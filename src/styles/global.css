@@ -1,32 +1,32 @@
-
 body {
   margin: 0;
   padding: 0;
   font-family: 'Noto Sans JP', sans-serif;
-  background-color: #fdffed;
-  color: #c6cf75;
+  background-color: #566270f0;
+  color: #fffff3;
 }
 
 nav {
   padding: 10px;
-  background-color: #181818;
+  background-color: #e0e3da;
   display: flex;
   justify-content: center;
-  gap: 1rem; 
+  gap: 1rem;
 }
-
 
 nav a {
   text-decoration: none;
-  color: #ffffff;
+  color: #fffff3;
   margin-right: 15px;
   font-size: 1rem;
   font-weight: 600;
-  transition: color 0.3s ease, transform 0.2s ease;
+  transition:
+    color 0.3s ease,
+    transform 0.2s ease;
 }
 
 nav a:hover {
-  color: #bb86fc;
+  color: #a593e0;
   transform: scale(1.05);
 }
 
@@ -37,7 +37,6 @@ nav a:hover {
   }
 
   nav a {
-    font-size: 1.2rem; 
+    font-size: 1.2rem;
   }
 }
-  

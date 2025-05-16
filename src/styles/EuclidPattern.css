@@ -3,39 +3,14 @@
   justify-content: center;
   align-items: center;
   padding: 0px 0px 20px 0px;
+  margin: 0px, 0px, 0px, 0px;
 }
 
-.container {
-  display: flex;
+.left-aligned {
+  margin-left: 0;
+  margin-right: auto;
 }
 
-
-form label + label {
-  margin-left: 20px; /* 各入力間の余白 */
-}
-
-form div {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-}
-
-form button {
-  padding: 10px 20px;
-  margin-bottom: 20px;
-  font-size: 1rem;
-  background-color: #ffffff;
-  color: #000000;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-form button:hover {
-  background-color: #ccbdd0;
-}
-
-
-  
-  
+/*
+  以下未使用
+*/
