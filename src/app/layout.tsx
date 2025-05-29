@@ -15,6 +15,7 @@ export default function RootLayout({
           <nav>
             <Link href={'/'}>ホーム</Link>
             <Link href={'/EuclidPattern'}>ユークリッド</Link>
+            <Link href={'/PascalesTriangle'}>パスカルの三角形</Link>
           </nav>
         </header>
         {children}

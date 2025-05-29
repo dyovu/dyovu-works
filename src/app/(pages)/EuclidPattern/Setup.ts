@@ -13,7 +13,6 @@ const setup = (p: p5, v: number = 2, h: number = 1, Thr: number = 50) => {
   const LENGTH: number = 500;
   const HORIZONTAL: number = h;
   const VERTICAL: number = v;
-  console.log(HORIZONTAL, VERTICAL);
   const thr: number = Thr;
   // ratioは横/縦, ration > 1は横長, ratio < 1は縦長
   const ratio = HORIZONTAL / VERTICAL;

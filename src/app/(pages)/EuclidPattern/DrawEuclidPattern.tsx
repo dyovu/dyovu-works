@@ -4,18 +4,17 @@ import p5 from 'p5';
 import React, { useEffect, useRef, useState } from 'react';
 
 import '@/styles/EuclidPattern.css';
+import '@/styles/global.css';
 import setup from './Setup';
 import draw from './Draw';
-import CustomSlider from './CustomSlider';
+import CustomSlider from 'src/components/CustomSlider';
 
 const EuclidPattern = () => {
-  const p5InstanceRef = useRef(null);
+  const p5Instance = useRef(null);
 
   const [vertical, setVertical] = useState(1);
   const [horizontal, setHorizontal] = useState(2);
   const [threshold, setThreshold] = useState(50);
-
-  // let p5Instance: p5;
 
   useEffect(() => {
     const sketch = (p: p5) => {
@@ -28,19 +27,19 @@ const EuclidPattern = () => {
     };
 
     let newInstance = new p5(sketch, document.getElementById('p5-container')!);
-    p5InstanceRef.current = newInstance;
+    p5Instance.current = newInstance;
 
     return () => {
-      if (p5InstanceRef.current) {
-        p5InstanceRef.current.remove();
+      if (p5Instance.current) {
+        p5Instance.current.remove();
       }
     };
   }, []);
 
   // 際描画する際はこっちの関数が呼ばれる
   useEffect(() => {
-    if (p5InstanceRef.current) {
-      p5InstanceRef.current.resetSketch(vertical, horizontal, threshold);
+    if (p5Instance.current) {
+      p5Instance.current.resetSketch(vertical, horizontal, threshold);
     }
   }, [vertical, horizontal, threshold]);
 
@@ -52,15 +51,13 @@ const EuclidPattern = () => {
       setVertical(newValue);
     }
   };
-
   const handleHorizontalChange = (newValue) => {
-    if (horizontal == newValue) {
+    if (vertical == newValue) {
       setHorizontal(newValue + 1);
     } else {
       setHorizontal(newValue);
     }
   };
-
   const handleThresholdChange = (newValue) => {
     setThreshold(newValue);
   };
