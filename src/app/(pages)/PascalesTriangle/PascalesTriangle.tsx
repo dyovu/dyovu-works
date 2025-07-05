@@ -8,13 +8,15 @@ import '@/styles/PascalesTriangle.css';
 import setup from './Setup';
 import draw from './Draw';
 import CustomSlider from 'src/components/CustomSlider';
+import { stopDrawing, reStartDrawing } from '@/utils/drawingControls';
+import {resetDrawing} from './controls';
 
 const PascalesTriangle = () => {
-  const isSTOPED = useRef(false); 
-  const P5_INSTANCE = useRef<p5 | null>(null);
+  const isStoped = useRef(false); 
+  const p5Instance = useRef<p5 | null>(null);
 
-  const state2 = useRef<number[]>([1]);
-  const GEN = useRef<number>(0);
+  const state = useRef<number[]>([1]);
+  const generation = useRef<number>(0);
   const WIDTH = 500;
 
   // スライダーの表示をレンダリングするためのuseState
@@ -38,9 +40,8 @@ const PascalesTriangle = () => {
     const sketch = (p: p5) => {
       p.setup = () => setup(p);
       p.draw = () => {
-        const currentScalor = WIDTH / limit.current;
-        draw(p, stopDrawing, updateState, state2.current, GEN, SCALOR, limit.current, WIDTH, mod.current, baseHue.current, hueRange.current);
-        if (isSTOPED.current){
+        draw(p, state, generation, SCALOR, limit.current, WIDTH, mod.current, baseHue.current, hueRange.current, isStoped);
+        if (isStoped.current){
           p.noLoop();
         }else{
           p.loop();
@@ -48,14 +49,14 @@ const PascalesTriangle = () => {
       };
     };
 
-    P5_INSTANCE.current= new p5(
+    p5Instance.current= new p5(
       sketch,
       container
     );
 
     return () => {
-      if (P5_INSTANCE.current) {
-        P5_INSTANCE.current.remove();
+      if (p5Instance.current) {
+        p5Instance.current.remove();
       }
       if (container) {
         container.innerHTML = '';
@@ -63,41 +64,6 @@ const PascalesTriangle = () => {
     };
   }, []);
 
-
-  const updateState = (newState: number[]) => {
-    state2.current = newState;
-  }
-
-  // Draw関数を停止するための関数
-  const stopDrawing = () => {
-    console.log('停止')
-    isSTOPED.current = true;
-  };
-  // Draw関数を再開するための関数
-  const reStartDrawing = () => {
-    console.log('再開')
-    // drawは停止状態だからdrawの中でloopを呼んでも意味ない、そのためここでloopを呼ぶ
-    isSTOPED.current = false;
-    P5_INSTANCE.current?.loop();
-  };
-
-  // キャンバスをリセットするための関数
-  const resetDrawing = () => {
-    isSTOPED.current = false;
-    state2.current = [1];
-    GEN.current = 0;
-
-    console.log('リセット');
-    
-    if (P5_INSTANCE.current) {
-        // キャンバスをクリア（背景色で塗りつぶし）
-        // P5_INSTANCE.current.background(255); // 白で塗りつぶし、または適切な背景色
-        P5_INSTANCE.current.clear();
-        
-        // 描画を再開
-        P5_INSTANCE.current.loop();
-    }
-  };
 
   const handleLimit = (newValue) => {
     limit.current = newValue;        
@@ -121,13 +87,13 @@ const PascalesTriangle = () => {
   
   return (
     <div>
-      <button onClick={stopDrawing} style={{ marginTop: '10px', padding: '10px' }}>
+      <button onClick={ () => stopDrawing(isStoped)} style={{ marginTop: '10px', padding: '10px' }}>
         Stop
       </button>
-      <button onClick={reStartDrawing} style={{ marginTop: '10px', padding: '10px' }}>
+      <button onClick={() => reStartDrawing(isStoped, p5Instance)} style={{ marginTop: '10px', padding: '10px' }}>
         Restart
       </button>
-      <button onClick={resetDrawing} style={{ marginTop: '10px', padding: '10px' }}>
+      <button onClick={() => resetDrawing(isStoped, p5Instance, state, generation)} style={{ marginTop: '10px', padding: '10px' }}>
         Reset
       </button>
       <CustomSlider

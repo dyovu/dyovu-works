@@ -82,7 +82,7 @@ const EuclidPattern = () => {
         value={threshold}
         onChange={handleThresholdChange}
         label='Threshold'
-        min={30}
+        min={10}
         max={100}
       />
 

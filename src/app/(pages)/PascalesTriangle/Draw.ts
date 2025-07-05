@@ -3,38 +3,37 @@ import { Dispatch, SetStateAction, MutableRefObject } from 'react';
 
 import p5 from 'p5';
 
-type stopDrawingFn = () => void;
-type updateStateFn = (list : number[]) => void;
+import { stopDrawing } from '@/utils/drawingControls';
+import { updateState } from './controls';
 
 const draw = (
   p:p5, 
-  stopDrawing: stopDrawingFn,
-  updateState: updateStateFn,
-  state: number[],
-  GEN: MutableRefObject<number>,
+  state: MutableRefObject<number[]>,
+  generation: MutableRefObject<number>,
   SCALOR: number,
   LIMIT: number,
   WIDTH: number,
   mod: number,
 	baseHue: number,
-	hueRange: number
+	hueRange: number,
+  isStoped: MutableRefObject<boolean>
 ) => {
   p.noStroke();
-  if (GEN.current < LIMIT) {
-    drawCell(p, GEN.current, WIDTH, SCALOR, state, mod, baseHue, hueRange);
-    update(updateState, state, mod);
+  if (generation.current < LIMIT) {
+    drawCell(p, generation.current, WIDTH, SCALOR, state.current, mod, baseHue, hueRange);
+    update(state, mod);
   }else{
-    stopDrawing();
+    stopDrawing(isStoped);
   }
-  GEN.current++;
+  generation.current++;
 };
 
 export default draw;
 
 
-const drawCell = (p: p5, gen: number, width:number, scalar:number, state: number[], mod:number, baseHue:number, hueRange: number) => {
+const drawCell = (p: p5, generation: number, width:number, scalar:number, state: number[], mod:number, baseHue:number, hueRange: number) => {
   let x = (width - state.length*scalar)*0.5;
-  let y = gen*scalar;
+  let y = generation*scalar;
 
   for (let i=0; i < state.length; i++) {
     const value = state[i];
@@ -56,15 +55,15 @@ const drawCell = (p: p5, gen: number, width:number, scalar:number, state: number
 
 // パスカルの三角形の計算をする
 // 前の行を受け取り次の行を返す
-const update = (updateState: updateStateFn, state: number[], mod: number) => {
+const update = (state: MutableRefObject<number[]>, mod: number) => {
   let newState: number[] = [];
   newState.push(1);
-  for (let i = 0; i < state.length-1; i++) {
+  for (let i = 0; i < state.current.length-1; i++) {
     // 足し算の段階で剰余計算を行う
-    newState.push((state[i] + state[i+1]) % mod);
+    newState.push((state.current[i] + state.current[i+1]) % mod);
   }
   newState.push(1);
-  updateState(newState);
+  updateState(newState, state);
 }
 
 
